@@ -8,15 +8,15 @@ const path = require('node:path');
 const net = require('node:net');
 const crypto = require('node:crypto');
 const project = path.resolve(__dirname, '..');
-const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'namedicmp-ui-test-'));
+const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'loxsicmp-ui-test-'));
 const credentials = { username: 'qa', password: crypto.randomBytes(24).toString('hex') };
 const wait = async (check) => { for (let i=0;i<500;i++) { if (await check()) return; await new Promise(r=>setTimeout(r,10)); } throw new Error('DOM test timeout'); };
 async function availablePort() { const s=net.createServer(); await new Promise(r=>s.listen(0,'127.0.0.1',r));const port=s.address().port;await new Promise(r=>s.close(r));return port; }
 (async()=>{
  let server,dom;
  try {
-  const port=await availablePort(),url=`http://127.0.0.1:${port}/`,binary=path.join(scratch,'namedicmp'),config=path.join(scratch,'config.json');
-  execFileSync(process.env.GO_BINARY||'go',['build','-buildvcs=false','-o',binary,'./cmd/namedicmp'],{cwd:project,stdio:'inherit'});
+  const port=await availablePort(),url=`http://127.0.0.1:${port}/`,binary=path.join(scratch,'loxsicmp'),config=path.join(scratch,'config.json');
+  execFileSync(process.env.GO_BINARY||'go',['build','-buildvcs=false','-o',binary,'./cmd/loxsicmp'],{cwd:project,stdio:'inherit'});
   execFileSync(binary,['init','--config',config,'--state',path.join(scratch,'state.json'),'--listen',`127.0.0.1:${port}`,'--public-host','203.0.113.25'],{input:JSON.stringify(credentials)});
   server=spawn(binary,['serve','--config',config,'--panel-only','--admin-socket='],{stdio:['ignore','ignore','pipe']});
   let stderr='';server.stderr.on('data',b=>stderr+=b.toString());
@@ -36,7 +36,7 @@ async function availablePort() { const s=net.createServer(); await new Promise(r
   await wait(()=>d.querySelector('#sign-in').textContent.includes('ورود'));
   d.querySelector('#username').value=credentials.username;d.querySelector('#password').value=credentials.password;submit('#login-form');
   await wait(()=>!d.querySelector('#app').hidden);await wait(()=>d.querySelector('#metrics').children.length===4);
-  if(!d.querySelector('[data-i18n="home"]').textContent.includes('داشبورد'))throw Error('Home was not renamed to Dashboard');
+  if(!d.querySelector('[data-i18n="home"]').textContent.includes('dashboard'))throw Error('Home was not renamed to Dashboard');
   if(!d.querySelector('#live-state-label').textContent.includes('۳۰'))throw Error('Missing explicit live fallback');
   if(d.querySelector('#probe-cards').textContent.includes('0 ms'))throw Error('Unavailable probe displayed a fake ping');
   if(w.eval('bytes(0.5)').includes('undefined'))throw Error('Sub-byte rate formatting uses an invalid unit');
