@@ -15,8 +15,8 @@ import (
 	"sync"
 	"time"
 
-	"namedicmp/internal/core"
-	"namedicmp/internal/store"
+	"loxsicmp/internal/core"
+	"loxsicmp/internal/store"
 )
 
 //go:embed web/*
@@ -87,7 +87,7 @@ func sameOrigin(r *http.Request) bool {
 	return err == nil && u.Host == r.Host && u.Scheme == scheme && u.Path == ""
 }
 func (p *Panel) session(r *http.Request) (string, Session, bool) {
-	cookie, err := r.Cookie("namedicmp_session")
+	cookie, err := r.Cookie("loxsicmp_session")
 	if err != nil {
 		return "", Session{}, false
 	}
@@ -207,7 +207,7 @@ func (p *Panel) login(w http.ResponseWriter, r *http.Request) {
 	}
 	p.sessions[token] = Session{CSRF: csrf, Expires: now.Add(8 * time.Hour)}
 	p.mu.Unlock()
-	http.SetCookie(w, &http.Cookie{Name: "namedicmp_session", Value: token, Path: "/", HttpOnly: true, Secure: r.TLS != nil, SameSite: http.SameSiteStrictMode, MaxAge: 8 * 3600})
+	http.SetCookie(w, &http.Cookie{Name: "loxsicmp_session", Value: token, Path: "/", HttpOnly: true, Secure: r.TLS != nil, SameSite: http.SameSiteStrictMode, MaxAge: 8 * 3600})
 	jsonReply(w, 200, map[string]string{"csrf": csrf})
 }
 func (p *Panel) api(w http.ResponseWriter, r *http.Request) {
@@ -243,7 +243,7 @@ func (p *Panel) api(w http.ResponseWriter, r *http.Request) {
 		p.mu.Lock()
 		delete(p.sessions, token)
 		p.mu.Unlock()
-		http.SetCookie(w, &http.Cookie{Name: "namedicmp_session", Value: "", Path: "/", HttpOnly: true, Secure: r.TLS != nil, SameSite: http.SameSiteStrictMode, MaxAge: -1})
+		http.SetCookie(w, &http.Cookie{Name: "loxsicmp_session", Value: "", Path: "/", HttpOnly: true, Secure: r.TLS != nil, SameSite: http.SameSiteStrictMode, MaxAge: -1})
 		jsonReply(w, 200, map[string]bool{"ok": true})
 	case "/api/home":
 		if r.Method != "GET" {
