@@ -1,5 +1,5 @@
 package core
-import("testing";"namedicmp/internal/wire")
+import("testing";"loxsicmp/internal/wire")
 func TestUDPBypassesBulkWithoutStarvingTCP(t *testing.T){
  c:=&Core{udpOutQueue:make(chan responsePacket,64),dataOut:make(chan responsePacket,2048)}
  for i:=0;i<64;i++{c.udpOutQueue<-responsePacket{message:wire.Message{Target:"udp"}}}
