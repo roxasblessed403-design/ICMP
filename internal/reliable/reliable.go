@@ -3,7 +3,7 @@ package reliable
 import (
 	"container/heap"
 	"errors"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 	"sync/atomic"
 	"time"
 )
