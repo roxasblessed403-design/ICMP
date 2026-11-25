@@ -2,7 +2,7 @@ package panel
 
 import (
  "testing"
- "namedicmp/internal/store"
+ "loxsicmp/internal/store"
 )
 func TestProfileIncludesTotalUsage(t *testing.T){
  u:=store.User{Upload:100,Download:200,Recovery:50,Encryption:"none"}
