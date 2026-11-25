@@ -2,9 +2,9 @@
 # Test deployment state transitions with an isolated mock service, never systemd.
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
-export NAMEDICMP_INSTALLER_TEST=1
+export LOXSICMP_INSTALLER_TEST=1
 source ./install.sh
-fixture=$(mktemp -d /tmp/namedicmp-update-test.XXXXXXXX)
+fixture=$(mktemp -d /tmp/loxsicmp-update-test.XXXXXXXX)
 trap 'rm -rf -- "$fixture"' EXIT
 PREFIX="$fixture/opt";STATE="$fixture/state";CONFIG="$fixture/config.json";workdir="$fixture/work"
 mkdir -p "$PREFIX" "$STATE" "$workdir" "$fixture/source"
@@ -19,32 +19,32 @@ import json,sys
 json.dump({'state_path':sys.argv[2],'panel_listen':'127.0.0.1:8443','tls_cert':'certificate.pem'},open(sys.argv[1],'w'))
 PY
 cp "$STATE/state.json" "$fixture/state.expected";cp "$CONFIG" "$fixture/config.expected"
-cat >"$PREFIX/namedicmp" <<'BIN'
+cat >"$PREFIX/loxsicmp" <<'BIN'
 #!/usr/bin/env bash
 [[ ${1:-} == version ]] && { echo 0.1.0-alpha;exit 0; }
 exit 0
 BIN
-chmod +x "$PREFIX/namedicmp"
+chmod +x "$PREFIX/loxsicmp"
 source_tree(){ printf -v "$1" '%s' "$fixture/source"; }
-build_candidate(){ cat >"$workdir/namedicmp" <<'BIN'
+build_candidate(){ cat >"$workdir/loxsicmp" <<'BIN'
 #!/usr/bin/env bash
 case ${1:-} in version)echo 0.2.1-alpha;;diagnostics)[[ ${FAIL_HEALTH:-0} != 1 ]];;*)exit 0;;esac
 BIN
-chmod +x "$workdir/namedicmp"; }
+chmod +x "$workdir/loxsicmp"; }
 remember_source(){ :; }
 sleep(){ :; }
 service_running=y
 systemctl(){ case $1 in is-active)[[ $service_running == y ]];;stop)service_running=n;;start)service_running=y;;*)return 0;;esac; }
-update_namedicmp
-[[ $("$PREFIX/namedicmp" version) == 0.2.1-alpha && $service_running == y ]]
+update_loxsicmp
+[[ $("$PREFIX/loxsicmp" version) == 0.2.1-alpha && $service_running == y ]]
 cmp "$CONFIG" "$fixture/config.expected";cmp "$STATE/state.json" "$fixture/state.expected"
-service_running=n;update_namedicmp
+service_running=n;update_loxsicmp
 [[ $service_running == n ]]
 # A failed health check must restore the actual previous executable.
-printf '#!/usr/bin/env bash\necho previous-stable\n' >"$PREFIX/namedicmp";chmod +x "$PREFIX/namedicmp"
+printf '#!/usr/bin/env bash\necho previous-stable\n' >"$PREFIX/loxsicmp";chmod +x "$PREFIX/loxsicmp"
 service_running=y;export FAIL_HEALTH=1
-if update_namedicmp;then say 'Unhealthy update accepted';exit 1;fi
-[[ $("$PREFIX/namedicmp" version) == previous-stable && $service_running == y ]]
+if update_loxsicmp;then say 'Unhealthy update accepted';exit 1;fi
+[[ $("$PREFIX/loxsicmp" version) == previous-stable && $service_running == y ]]
 cmp "$CONFIG" "$fixture/config.expected";cmp "$STATE/state.json" "$fixture/state.expected"
 count=$(find "$STATE/backups" -name state.json | wc -l)
 [[ $count -eq 3 ]]
