@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 	"os"
 	"path/filepath"
 	"strings"
@@ -63,10 +63,10 @@ type Admin struct {
 	Hash     string `json:"hash"`
 }
 type disk struct {
-	Version   int                 `json:"version"`
-	Users     map[string]User     `json:"users"`
-	Outbounds map[string]Outbound `json:"outbounds"`
-	Admin     Admin               `json:"admin"`
+	Version    int                 `json:"version"`
+	Users      map[string]User     `json:"users"`
+	Outbounds  map[string]Outbound `json:"outbounds"`
+	Admin      Admin               `json:"admin"`
 	Connection *ConnectionSettings `json:"connection,omitempty"`
 }
 type Store struct {
@@ -481,4 +481,3 @@ func (s *Store) CheckAdmin(username, password string) bool {
 	got := passwordHash(password, salt)
 	return subtle.ConstantTimeCompare(got, expected) == 1 && subtle.ConstantTimeCompare([]byte(username), []byte(a.Username)) == 1
 }
-
