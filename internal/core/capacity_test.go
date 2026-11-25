@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 )
 
 func TestAdmissionRejectionReasonsAreExclusive(t *testing.T) {
