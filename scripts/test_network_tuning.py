@@ -11,7 +11,7 @@ spec.loader.exec_module(network)
 
 class NetworkTuningTest(unittest.TestCase):
     def setUp(self):
-        self.fixture = tempfile.TemporaryDirectory(prefix="namedicmp-network-test-")
+        self.fixture = tempfile.TemporaryDirectory(prefix="loxsicmp-network-test-")
         self.addCleanup(self.fixture.cleanup)
         self.config = Path(self.fixture.name) / "config"
         self.sysctls = Path(self.fixture.name) / "sysctl.d"
@@ -37,7 +37,7 @@ class NetworkTuningTest(unittest.TestCase):
         self.assertEqual(len(self.writes), len(network.MINIMUMS))
         self.run_tuning("restore")
         self.assertEqual(self.values, self.initial)
-        self.assertFalse((self.sysctls / "91-namedicmp-network.conf").exists())
+        self.assertFalse((self.sysctls / "91-loxsicmp-network.conf").exists())
 
     def test_never_lowers_existing_values_or_disables_security(self):
         self.values = {key: minimum * 2 for key, minimum in network.MINIMUMS.items()}
@@ -61,13 +61,13 @@ class NetworkTuningTest(unittest.TestCase):
         def denied(key, value):
             return False if key == "net.core.wmem_max" else self.write(key, value)
         network.tune("apply", self.config, self.sysctls, self.values.get, denied)
-        text = (self.sysctls / "91-namedicmp-network.conf").read_text()
+        text = (self.sysctls / "91-loxsicmp-network.conf").read_text()
         self.assertNotIn("rmem_max", text)
         self.assertNotIn("wmem_max", text)
 
     def test_keeps_edited_profile_and_backup(self):
         self.run_tuning("apply")
-        profile = self.sysctls / "91-namedicmp-network.conf"
+        profile = self.sysctls / "91-loxsicmp-network.conf"
         profile.write_text("# edited by administrator\n")
         with self.assertRaises(ValueError):
             self.run_tuning("apply")
