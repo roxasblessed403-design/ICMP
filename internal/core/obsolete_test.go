@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 func TestAcknowledgedRetryDoesNotReachSocket(t *testing.T) {
