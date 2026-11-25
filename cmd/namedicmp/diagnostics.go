@@ -15,7 +15,7 @@ import (
 
 func diagnostics(args []string) error {
 	f := flag.NewFlagSet("diagnostics", flag.ContinueOnError)
-	sock := f.String("socket", "/run/namedicmp/admin.sock", "management socket")
+	sock := f.String("socket", "/run/loxsicmp/admin.sock", "management socket")
 	if err := f.Parse(args); err != nil {
 		return err
 	}
