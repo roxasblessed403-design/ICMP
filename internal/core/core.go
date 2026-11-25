@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/klauspost/compress/zstd"
-	"namedicmp/internal/outbound"
-	"namedicmp/internal/reliable"
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/outbound"
+	"loxsicmp/internal/reliable"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 type Packet struct {
