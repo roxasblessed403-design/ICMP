@@ -13,7 +13,7 @@ import (
  "time"
  "sort"
  "strconv"
- "namedicmp/internal/store"
+ "loxsicmp/internal/store"
 )
 // Interface detection does not contact a third party or guess a NAT public IP.
 // NAT installations can use the explicit IP/domain field in Settings.
