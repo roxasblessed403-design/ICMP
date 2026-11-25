@@ -36,7 +36,7 @@ class AddressDetectionTest(unittest.TestCase):
             self.assertEqual(run.call_count, 2)
 
     def test_no_proxy_ip_reflection_and_no_lookup_when_disabled(self):
-        for env in ({"HTTPS_PROXY": "http://proxy.invalid"}, {"NAMEDICMP_PUBLIC_IP_LOOKUP": "0"}):
+        for env in ({"HTTPS_PROXY": "http://proxy.invalid"}, {"LOXSICMP_PUBLIC_IP_LOOKUP": "0"}):
             with patch.object(module, "local_addresses", return_value=[]), patch.object(module.subprocess, "run") as run, patch.dict(module.os.environ, env, clear=True):
                 self.assertEqual(module.detect("ipv6"), "")
                 run.assert_not_called()
