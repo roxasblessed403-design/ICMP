@@ -11,12 +11,12 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 MOCK = r'''
 set -euo pipefail
-export NAMEDICMP_INSTALLER_TEST=1
+export LOXSICMP_INSTALLER_TEST=1
 source "$1"
 fixture=$2
 test_mode=$3
 # Deliberately absent executable/config: old partial uninstalls must recover.
-PREFIX="$fixture/missing/namedicmp"
+PREFIX="$fixture/missing/loxsicmp"
 CONFIG="$fixture/missing/config.json"
 STATE="$fixture/missing/state"
 events="$fixture/events"
@@ -29,13 +29,13 @@ systemctl(){
   show)
    case $3 in
     --property=LoadState)
-     if [[ $2 == namedicmp.service || $test_mode == static-renew && $2 == namedicmp-renew.service ]];then printf 'loaded\n';else printf 'not-found\n';fi;;
+     if [[ $2 == loxsicmp.service || $test_mode == static-renew && $2 == loxsicmp-renew.service ]];then printf 'loaded\n';else printf 'not-found\n';fi;;
     --property=ActiveState)printf '%s\n' "$service_state";;
-    --property=UnitFileState)if [[ $2 == namedicmp-renew.service ]];then printf 'static\n';else printf 'enabled\n';fi;;
+    --property=UnitFileState)if [[ $2 == loxsicmp-renew.service ]];then printf 'static\n';else printf 'enabled\n';fi;;
     *)return 90;;
    esac;;
   stop)
-   [[ $2 == namedicmp.service || $test_mode == static-renew && $2 == namedicmp-renew.service ]] || return 89
+   [[ $2 == loxsicmp.service || $test_mode == static-renew && $2 == loxsicmp-renew.service ]] || return 89
    [[ $test_mode != stop-fails ]] || return 1
    [[ $test_mode == stop-lies ]] || service_state=inactive;;
   disable)[[ $test_mode != disable-fails ]];;
@@ -53,7 +53,7 @@ if uninstall;then printf 'RESULT=success\n';else printf 'RESULT=failure\n';fi
 
 class UninstallTests(unittest.TestCase):
     def run_mock(self, mode):
-        with tempfile.TemporaryDirectory(prefix="namedicmp-uninstall-test.") as fixture:
+        with tempfile.TemporaryDirectory(prefix="loxsicmp-uninstall-test.") as fixture:
             result = subprocess.run(
                 ["bash", "-s", "--", str(ROOT / "install.sh"), fixture, mode],
                 input=MOCK, text=True, capture_output=True, timeout=10,
@@ -65,8 +65,8 @@ class UninstallTests(unittest.TestCase):
     def test_missing_optional_timer_and_partial_install(self):
         output, events = self.run_mock("normal")
         self.assertIn("RESULT=success", output)
-        self.assertIn("stop namedicmp.service", events)
-        self.assertIn("disable namedicmp.service", events)
+        self.assertIn("stop loxsicmp.service", events)
+        self.assertIn("disable loxsicmp.service", events)
         self.assertIn("process-check", events)
         self.assertIn("remove-files", events)
         self.assertNotIn("purge-data", events)
@@ -82,8 +82,8 @@ class UninstallTests(unittest.TestCase):
     def test_static_renewal_service_does_not_need_disable(self):
         output, events = self.run_mock("static-renew")
         self.assertIn("RESULT=success", output)
-        self.assertIn("stop namedicmp-renew.service", events)
-        self.assertNotIn("disable namedicmp-renew.service", events)
+        self.assertIn("stop loxsicmp-renew.service", events)
+        self.assertNotIn("disable loxsicmp-renew.service", events)
 
     def test_stop_failure_or_live_state_never_deletes_files(self):
         for mode in ("stop-fails", "stop-lies", "disable-fails", "process-remains", "restore-fails"):
@@ -102,18 +102,18 @@ class UninstallTests(unittest.TestCase):
         import signal
         if not hasattr(os, "pidfd_open") or not hasattr(signal, "pidfd_send_signal"):
             self.skipTest("pidfd support required for safe orphan cleanup")
-        with tempfile.TemporaryDirectory(prefix="namedicmp-uninstall-test.") as fixture:
-            prefix = Path(fixture, "namedicmp")
+        with tempfile.TemporaryDirectory(prefix="loxsicmp-uninstall-test.") as fixture:
+            prefix = Path(fixture, "loxsicmp")
             other = Path(fixture, "other")
             prefix.mkdir()
             other.mkdir()
-            shutil.copy2("/bin/sleep", prefix / "namedicmp")
-            shutil.copy2("/bin/sleep", other / "namedicmp")
-            owned = subprocess.Popen([str(prefix / "namedicmp"), "60"])
-            unrelated = subprocess.Popen([str(other / "namedicmp"), "60"])
+            shutil.copy2("/bin/sleep", prefix / "loxsicmp")
+            shutil.copy2("/bin/sleep", other / "loxsicmp")
+            owned = subprocess.Popen([str(prefix / "loxsicmp"), "60"])
+            unrelated = subprocess.Popen([str(other / "loxsicmp"), "60"])
             try:
-                (prefix / "namedicmp").unlink()
-                command = ["bash", "-c", 'export NAMEDICMP_INSTALLER_TEST=1; source "$1"; PREFIX="$2"; uninstall_stop_processes',
+                (prefix / "loxsicmp").unlink()
+                command = ["bash", "-c", 'export LOXSICMP_INSTALLER_TEST=1; source "$1"; PREFIX="$2"; uninstall_stop_processes',
                            "uninstall-recovery-test", str(ROOT / "install.sh"), str(prefix)]
                 # Hosted CI has passwordless sudo. Production uninstall also
                 # runs as root; unprivileged /proc cannot prove other users'
@@ -146,7 +146,7 @@ class UninstallTests(unittest.TestCase):
 
     def test_remaining_network_backup_or_edited_profile_blocks_uninstall(self):
         declaration = subprocess.run(
-            ["bash", "-c", 'export NAMEDICMP_INSTALLER_TEST=1; source "$1"; declare -f uninstall_restore_network',
+            ["bash", "-c", 'export LOXSICMP_INSTALLER_TEST=1; source "$1"; declare -f uninstall_restore_network',
              "uninstall-network-test", str(ROOT / "install.sh")],
             text=True, capture_output=True, check=True,
         ).stdout
@@ -159,7 +159,7 @@ class UninstallTests(unittest.TestCase):
                 ledger = '{"values":{"unrestored":{}}}' if mode == "failed-restore" else '{"values":{}}'
                 (config / "network-tuning.json").write_text(ledger)
                 if mode == "edited-profile":
-                    (sysctl / "91-namedicmp-network.conf").write_text("# Administrator edit\n")
+                    (sysctl / "91-loxsicmp-network.conf").write_text("# Administrator edit\n")
                 # Redirect fixed system paths only in this function fixture;
                 # never invoke real sysctl writes or touch host /etc.
                 isolated = declaration.replace("/etc/namedicmp", str(config)).replace("/etc/sysctl.d", str(sysctl))
