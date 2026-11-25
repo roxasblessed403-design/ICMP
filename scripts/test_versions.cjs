@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const server = read('cmd/namedicmp/main.go').match(/const version = "([^"]+)"/)[1];
+const server = read('cmd/loxsicmp/main.go').match(/const version = "([^"]+)"/)[1];
 assert.match(server, /^\d+\.\d+\.\d+$/, 'server release must have a stable version');
 assert.equal(read('install.sh').match(/^MANAGER_VERSION=(.+)$/m)[1], server);
 assert.equal(JSON.parse(read('package.json')).version, server);
