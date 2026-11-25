@@ -15,11 +15,11 @@ MINIMUMS = {
     "net.ipv4.icmp_msgs_per_sec": 5000,
     "net.ipv4.icmp_msgs_burst": 200,
 }
-HEADER = "# Managed by namedICMP; originals in /etc/namedicmp/network-tuning.json\n"
+HEADER = "# Managed by loxsICMP; originals in /etc/loxsicmp/network-tuning.json\n"
 
 def atomic(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)
-    fd, name = tempfile.mkstemp(prefix=".namedicmp-", dir=path.parent)
+    fd, name = tempfile.mkstemp(prefix=".loxsicmp-", dir=path.parent)
     try:
         with os.fdopen(fd, "w") as stream:
             os.chmod(name, 0o600)
@@ -41,7 +41,7 @@ def write_sysctl(key, value):
 
 def tune(action, config_dir, sysctl_dir, read=read_sysctl, write=write_sysctl):
     state_path = Path(config_dir) / "network-tuning.json"
-    profile_path = Path(sysctl_dir) / "91-namedicmp-network.conf"
+    profile_path = Path(sysctl_dir) / "91-loxsicmp-network.conf"
     state = json.loads(state_path.read_text()) if state_path.exists() else {"version": 1, "values": {}, "profile": ""}
     if state.get("version") != 1 or any(key not in MINIMUMS for key in state["values"]):
         raise ValueError("Unrecognized tuning backup; refusing to change sysctls")
@@ -90,7 +90,7 @@ def tune(action, config_dir, sysctl_dir, read=read_sysctl, write=write_sysctl):
     atomic(state_path, json.dumps(state, indent=2) + "\n")
     atomic(profile_path, state["profile"])
     return messages + ["Network profile applied; originals retained for restore.",
-        "ICMP error sysctls do NOT pace raw tunnel echo packets. namedICMP paces its own sends.",
+        "ICMP error sysctls do NOT pace raw tunnel echo packets. loxsICMP paces its own sends.",
         "Provider anti-DDoS rules are outside this VPS; arrange ICMP permission with the provider."]
 
 if __name__ == "__main__":
@@ -100,6 +100,6 @@ if __name__ == "__main__":
     if os.geteuid() != 0:
         parser.error("Run as root")
     try:
-        print("\n".join(tune(args.action, "/etc/namedicmp", "/etc/sysctl.d")))
+        print("\n".join(tune(args.action, "/etc/loxsicmp", "/etc/sysctl.d")))
     except (OSError, ValueError, KeyError) as error:
         parser.exit(1, f"Network tuning stopped: {error}\n")
