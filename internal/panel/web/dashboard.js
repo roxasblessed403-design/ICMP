@@ -23,29 +23,6 @@ Object.assign(dictionary.en, {
  kernelDiagnostics:'Kernel ICMP counters & read-only network settings',kernelHint:'Host-wide totals since boot. These are not tunnel-only statistics. No firewall or sysctl setting is changed by this dashboard.',networkSettings:'Network settings',
  heapMemory:'Go heap allocated',processMemory:'Process resident memory',goroutines:'Go routines',fileDescriptors:'Open file descriptors',swap:'Swap used',packetsSecond:'packets/s',trafficMeasurement:'Traffic measurement',trafficChart:'Live traffic chart',refreshAt:'Sampled',
 });
-Object.assign(dictionary.fa, {
- home:'داشبورد',homeTitle:'داشبورد',overview:'دیدبان شبکه',homeHint:'نمای زندهٔ شبکهٔ شما؛ از بسته‌ها تا عملکرد.',
- liveNetwork:'شبکهٔ زنده',liveConnected:'زنده · هر ۱ ثانیه',liveConnecting:'در حال اتصال…',liveReconnecting:'اتصال مجدد…',livePaused:'نمای زنده متوقف است',liveStale:'داده قدیمی · تلاش مجدد',liveUnsupported:'WebSocket در دسترس نیست · به‌روزرسانی ۳۰ ثانیه‌ای',
- tunnelPayload:'محتوای تونل',interfaceTraffic:'رابط‌های VPS',packetRate:'بستهٔ ICMP در ثانیه',fiveMinutes:'۵ دقیقهٔ اخیر · فقط در حافظه',now:'اکنون',
- pathQuality:'کیفیت مسیر',probeHint:'از VPS تا مقصد، نه پینگ کلاینت یا بازی. یک Echo برای هر خانواده هر ۱۰ ثانیه؛ پنجرهٔ ۳۰ ارسال اخیر. فیلتر ICMP ممکن است مانع پاسخ شود.',
- ping:'پینگ',packetLoss:'افت بسته',jitter:'جیتر',jitterHint:'میانگین اختلاف مطلق RTT پاسخ‌های موفقِ متوالی؛ پس از بی‌پاسخ‌ماندن، جفت جدید آغاز می‌شود.',
- probeWaiting:'در انتظار اولین تست',probeDisabled:'هستهٔ ICMP خاموش است',probeUnavailable:'تست در دسترس نیست',probeTimeout:'بدون پاسخ Echo',probeOK:'پاسخ Echo دریافت شد',probeWindow:'پاسخ / ارسال',probeRange:'کمینه / میانگین / بیشینه',lastProbe:'آخرین تست',unknown:'نامشخص',
- payloadHint:'محتوای آپلود و دانلود از دید کلاینت؛ بدون سربار ICMP و ارسال مجدد TCP. این نمودار تست ظرفیت پهنای باند نیست.',
- networkHint:'همهٔ رابط‌ها جز loopback، شامل سرویس‌های دیگر. رابط‌های مجازی ممکن است یک بسته را چند بار بشمارند.',packetHint:'ترافیک ICMP هسته، شامل بسته‌های کنترل، بسته‌های ردشده و ارسال مجدد؛ این عدد اندازه‌گیری افت بسته نیست.',
- coreErrors:'حذف بسته و خطاهای خروجی',queueHealth:'صف‌ها و کنترل نرخ',interfaceHealth:'سلامت رابط شبکه',hostWide:'کل میزبان',
- dropped:'رویدادهای حذف یا تلاش دوبارهٔ هسته',dropHint:'شمارنده‌ها از شروع سرویس‌اند، نه افت اندازه‌گیری‌شدهٔ مسیر. رد ورود TCP به صف، محلی دوباره تلاش می‌شود. رویداد قدیمی لزوماً به معنی خرابی فعلی نیست.',
- activeFlows:'جریان‌های فعال',activeUsers:'کاربران فعال',flowHint:'جریان‌های TCP / UDP، نه تعداد دستگاه VPN',coreOff:'ICMP خاموش',storageOK:'ذخیرهٔ مصرف سالم',storageError:'خطا در ذخیرهٔ مصرف',listener:'دریافت ICMP',notListening:'غیرفعال',
- rejected:'بسته‌های ردشده',outboundErrors:'خطاهای خروجی',dnsErrors:'خطای DNS',policyErrors:'مسدودشده طبق سیاست',timeouts:'مهلت خروجی تمام‌شده',networkErrors:'خطاهای شبکه',otherErrors:'سایر خطاهای خروجی',socketErrors:'خطای نوشتن سوکت',oversizedUDP:'بستهٔ UDP بزرگ‌تر از حد',queueDrops:'رویدادهای فشار صف ارسال',sessionDrops:'حذف از صف جریان',sessionLimits:'رد به‌دلیل سقف جریان',
- controlQueue:'صف کنترل',tcpQueue:'صف TCP',udpQueue:'صف UDP',pacing:'سقف ارسال ICMP',burst:'ظرفیت ارسال لحظه‌ای',sessionCapacity:'ظرفیت جریان',udpLimit:'بیشینهٔ محتوای UDP',
- tcpQueueRetries:'تلاش دوباره برای ورود TCP به صف',controlQueueDrops:'حذف از صف کنترل',udpQueueEvicted:'حذف قدیمی‌ترین بستهٔ UDP',udpQueueRejected:'رد بستهٔ جدید UDP',
- globalFlowRejects:'رد به‌دلیل سقف کل جریان‌ها',tcpUserRejects:'رد به‌دلیل سقف TCP کاربر',udpUserRejects:'رد به‌دلیل سقف UDP کاربر',stoppingRejects:'رد هنگام توقف هسته',
- busiestTCP:'بیشترین TCP یک کاربر / سقف',busiestUDP:'بیشترین UDP یک کاربر / سقف',udpIdleTimeouts:'انقضای UDP غیرفعال',udpReadErrors:'خطای خواندن خروجی UDP',udpWriteErrors:'خطای نوشتن خروجی UDP',
- pressureDetails:'جزئیات علت‌های فشار صف و ظرفیت',
- obsoleteQueued:'ارسال‌های منقضی‌شدهٔ کنارگذاشته‌شده',
- rxTotal:'کل دریافت رابط',txTotal:'کل ارسال رابط',rxErrors:'خطای دریافت',txErrors:'خطای ارسال',rxDrops:'حذف در دریافت',txDrops:'حذف در ارسال',
- kernelDiagnostics:'شمارنده‌های ICMP کرنل و تنظیمات فقط‌خواندنی شبکه',kernelHint:'آمار کل میزبان از زمان روشن‌شدن؛ منحصر به تونل نیست. داشبورد هیچ تنظیم فایروال یا sysctl را تغییر نمی‌دهد.',networkSettings:'تنظیمات شبکه',
- heapMemory:'حافظهٔ تخصیص‌یافتهٔ Go',processMemory:'حافظهٔ مقیم فرایند',goroutines:'روتین‌های Go',fileDescriptors:'فایل‌های باز',swap:'مصرف Swap',packetsSecond:'بسته/ثانیه',trafficMeasurement:'نوع اندازه‌گیری ترافیک',trafficChart:'نمودار زندهٔ ترافیک',refreshAt:'زمان نمونه',
-});
 iconPaths.home=['M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z'];
 document.querySelector('[data-icon="home"]').replaceChildren(icon('home'));
 
@@ -57,7 +34,7 @@ window.namedDashboard = (()=>{
  const ms=n=>available(n)?formatNumber(n)+' ms':'—';
  const rate=n=>available(n)?bytes(n)+'/s':'—';
  const amount=n=>available(n)?bytes(n):'—';
- const clock=n=>n?new Date(n).toLocaleTimeString(lang==='fa'?'fa-IR':'en-GB'):'—';
+ const clock=n=>n?new Date(n).toLocaleTimeString('en-GB'):'—';
  const eligible=()=>!!session&&page==='home'&&!document.hidden&&!$('app').hidden;
  function liveState(value){state=value;$('live-state-label').textContent=t(value);$('live-state').dataset.state=value;}
  function stop(){clearTimeout(retry);clearInterval(watch);retry=watch=null;if(socket){const old=socket;socket=null;old.onclose=null;old.close();}liveState('livePaused');}
