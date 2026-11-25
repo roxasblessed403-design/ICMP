@@ -17,7 +17,7 @@ import (
 	"syscall"
 	"time"
 
-	"namedicmp/internal/store"
+	"loxsicmp/internal/store"
 )
 
 var ErrResolve = errors.New("target DNS lookup failed")
