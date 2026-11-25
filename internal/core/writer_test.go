@@ -8,9 +8,9 @@ import (
  "sync"
  "testing"
  "time"
- "namedicmp/internal/store"
- "namedicmp/internal/wire"
- "namedicmp/internal/outbound"
+ "loxsicmp/internal/store"
+ "loxsicmp/internal/wire"
+ "loxsicmp/internal/outbound"
 )
 
 func TestPacketPacerBoundsBurstAndRate(t *testing.T) {
