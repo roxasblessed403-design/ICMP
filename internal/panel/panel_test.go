@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"namedicmp/internal/store"
+	"loxsicmp/internal/store"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
