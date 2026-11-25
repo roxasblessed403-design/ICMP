@@ -1,7 +1,7 @@
 package reliable
 
 import (
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 	"testing"
 	"time"
 )
