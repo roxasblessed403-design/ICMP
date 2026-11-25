@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 // No writer or network goroutines: saturation tests inspect admission and
