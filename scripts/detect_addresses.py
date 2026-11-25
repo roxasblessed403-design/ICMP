@@ -97,7 +97,7 @@ def detect(family):
     # A proxy's egress address is not the public address of this VPS.
     if any(os.environ.get(key) for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy")):
         return ""
-    if os.environ.get("NAMEDICMP_PUBLIC_IP_LOOKUP") == "0":
+    if os.environ.get("LOXS_PUBLIC_IP_LOOKUP") == "0":
         return ""
     endpoint = "https://api6.ipify.org" if version == 6 else "https://api.ipify.org"
     try:
