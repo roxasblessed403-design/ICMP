@@ -1,16 +1,16 @@
-# NamedICMP
+# LoxsICMP
 
 **A web management panel for VPN over ICMP, with user management and TCP/UDP support.**
 
-[![Latest release](https://img.shields.io/github/v/release/namedkenzo/NamedICMP?color=2ea44f)](https://github.com/namedkenzo/NamedICMP/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/namedkenzo/LoxsICMP?color=2ea44f)](https://github.com/namedkenzo/LoxsICMP/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Platform](https://img.shields.io/badge/Linux-amd64%20%7C%20arm64-555555?logo=linux&logoColor=white)](#quick-install)
 
-[فارسی](README.fa.md) · [Panel releases](https://github.com/namedkenzo/NamedICMP/releases) · [Client apps → NamedClients](https://github.com/namedkenzo/NamedClients) · [Architecture](docs/ARCHITECTURE.md)
+[فارسی](README.fa.md) · [Panel releases](https://github.com/namedkenzo/LoxsICMP/releases) · [Client apps → NamedClients](https://github.com/namedkenzo/NamedClients) · [Architecture](docs/ARCHITECTURE.md)
 
 ## What lives here?
 
-**NamedICMP is a web management panel for VPN over ICMP.** It manages users, usage limits, connection profiles and outbounds. Its managed Go tunneling core runs alongside the panel in one systemd service; no separate PingTunnel executable, Node.js runtime or external database is required.
+**LoxsICMP is a web management panel for VPN over ICMP.** It manages users, usage limits, connection profiles and outbounds. Its managed Go tunneling core runs alongside the panel in one systemd service; no separate PingTunnel executable, Node.js runtime or external database is required.
 
 **Windows and Android client apps belong in [NamedClients](https://github.com/namedkenzo/NamedClients).** Client versions and downloads are managed there independently; use the [latest combined client release](https://github.com/namedkenzo/NamedClients/releases/latest).
 
@@ -29,8 +29,8 @@
 Use **Debian/Ubuntu with systemd**, root access and public IPv4 or routed IPv6. Linux **amd64 and arm64** are supported. Allow ICMP and the chosen panel TCP port in your host/provider firewall.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/namedkenzo/NamedICMP/main/install.sh -o /tmp/namedicmp-install.sh
-bash /tmp/namedicmp-install.sh
+curl -fsSL https://raw.githubusercontent.com/namedkenzo/LoxsICMP/main/install.sh -o /tmp/LoxsICMP-install.sh
+bash /tmp/LoxsICMP-install.sh
 ```
 
 Choose **1 — Install** and choose IPv4/IPv6, an automatic or explicit IP/domain, packet reader, panel port and administrator credentials. The repository is preset; no repository-name prompt is needed.
@@ -39,7 +39,7 @@ The installer selects the exact Linux release for the server architecture, verif
 
 HTTPS uses Certbot; your domain must resolve to the server and TCP 80 must be free and reachable. HTTP can bind publicly or use localhost with the printed SSH-tunnel command. Panel HTTPS and tunnel encryption are independent.
 
-Reopen management with `namedicmp`. To upgrade, run the latest installer above and choose **2 — Update**. Users, usage, credentials, quotas and TLS settings are preserved; active tunnels reconnect once. Failed health checks restore the previous binary.
+Reopen management with `LoxsICMP`. To upgrade, run the latest installer above and choose **2 — Update**. Users, usage, credentials, quotas and TLS settings are preserved; active tunnels reconnect once. Failed health checks restore the previous binary.
 
 ## Choose a client
 
@@ -71,9 +71,9 @@ Install/Update now apply reversible network tuning and the core paces outgoing I
 Upgrading from 0.3.0? Run the current installer command above and choose **2 · Update**. The older installed manager cannot install the new tuning helper itself. The current manager preserves users/settings and applies the profile automatically; active tunnels reconnect once.
 
 ```bash
-systemctl status namedicmp --no-pager
-journalctl -u namedicmp -n 60 --no-pager
-/opt/namedicmp/namedicmp diagnostics
+systemctl status LoxsICMP --no-pager
+journalctl -u LoxsICMP -n 60 --no-pager
+/opt/LoxsICMP/LoxsICMP diagnostics
 ```
 
 | Symptom | Check |
@@ -84,7 +84,7 @@ journalctl -u namedicmp -n 60 --no-pager
 | Client cannot connect | Credentials, ICMP reachability, client permissions and provider firewall |
 | TCP works; UDP fails | Application/client UDP support and SOCKS5 UDP ASSOCIATE; HTTP outbounds cannot carry UDP |
 
-Configuration: `/etc/namedicmp/config.json` · State: `/var/lib/namedicmp/state.json` · Backups: `/var/lib/namedicmp/backups`. Do not run two instances against the same state file. The installer records/restores kernel echo-reply suppression where applicable. Never bypass checksum validation.
+Configuration: `/etc/LoxsICMP/config.json` · State: `/var/lib/LoxsICMP/state.json` · Backups: `/var/lib/LoxsICMP/backups`. Do not run two instances against the same state file. The installer records/restores kernel echo-reply suppression where applicable. Never bypass checksum validation.
 
 ## Development
 
@@ -99,13 +99,12 @@ bash scripts/test_update.sh
 bash scripts/build.sh
 ```
 
-Linux archives are written to `dist/`. Use `NAMEDICMP_INSTALL_MODE=source`, `binary` or the default `auto`. Source tests can be enabled with `NAMEDICMP_RUN_TESTS=1`; repository/ref overrides are for development. Windows/Android build workflows are maintained in **NamedClients**, not here.
+Linux archives are written to `dist/`. Use `LoxsICMP_INSTALL_MODE=source`, `binary` or the default `auto`. Source tests can be enabled with `LoxsICMP_RUN_TESTS=1`; repository/ref overrides are for development. Windows/Android build workflows are maintained in **NamedClients**, not here.
 
 [Security](SECURITY.md) · [Panel release notes](docs/RELEASE-v0.4.2.md) · [Architecture](docs/ARCHITECTURE.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
 ## Support
 
-- **TRX (Tron):** `TYbWTzdjVM3HpqkGiUX7GGV2XgK6QDJQis`
-- **TON:** `UQDPGgQWQb9j8pxC5_RIh2HbuTJjaIYSga7FXPLZWbyzTZJN`
+
 
 [MIT License](LICENSE)
