@@ -2,17 +2,17 @@
 
 **A web management panel for VPN over ICMP, with user management and TCP/UDP support.**
 
-[![Latest release](https://img.shields.io/github/v/release/namedkenzo/LoxsICMP?color=2ea44f)](https://github.com/namedkenzo/LoxsICMP/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/roxasblessed403-design/LoxsICMP?color=2ea44f)](https://github.com/roxasblessed403-design/LoxsICMP/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Platform](https://img.shields.io/badge/Linux-amd64%20%7C%20arm64-555555?logo=linux&logoColor=white)](#quick-install)
 
-[فارسی](README.fa.md) · [Panel releases](https://github.com/namedkenzo/LoxsICMP/releases) · [Client apps → NamedClients](https://github.com/namedkenzo/NamedClients) · [Architecture](docs/ARCHITECTURE.md)
+[!](README.fa.md) · [Panel releases](https://github.com/roxasblessed403-design/LoxsICMP/releases) · [Client apps → NamedClients](https://github.com/roxasblessed403-design/NamedClients) · [Architecture](docs/ARCHITECTURE.md)
 
 ## What lives here?
 
 **LoxsICMP is a web management panel for VPN over ICMP.** It manages users, usage limits, connection profiles and outbounds. Its managed Go tunneling core runs alongside the panel in one systemd service; no separate PingTunnel executable, Node.js runtime or external database is required.
 
-**Windows and Android client apps belong in [NamedClients](https://github.com/namedkenzo/NamedClients).** Client versions and downloads are managed there independently; use the [latest combined client release](https://github.com/namedkenzo/NamedClients/releases/latest).
+**Windows and Android client apps belong in [NamedClients](https://github.com/roxasblessed403-design/NamedClients).** Client versions and downloads are managed there independently; use the [latest combined client release](https://github.com/roxasblessed403-design/NamedClients/releases/latest).
 
 ## Features
 
@@ -29,7 +29,7 @@
 Use **Debian/Ubuntu with systemd**, root access and public IPv4 or routed IPv6. Linux **amd64 and arm64** are supported. Allow ICMP and the chosen panel TCP port in your host/provider firewall.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/namedkenzo/LoxsICMP/main/install.sh -o /tmp/LoxsICMP-install.sh
+curl -fsSL https://raw.githubusercontent.com/roxasblessed403-design/LoxsICMP/main/install.sh -o /tmp/LoxsICMP-install.sh
 bash /tmp/LoxsICMP-install.sh
 ```
 
@@ -47,8 +47,8 @@ Create a user in **Users**, open **Config**, then copy the complete connection U
 
 | Client | Where to get it | Notes |
 | --- | --- | --- |
-| **namedP — Windows** | [NamedClients](https://github.com/namedkenzo/NamedClients) · [Downloads](https://github.com/namedkenzo/NamedClients/releases/latest) | Dedicated app; installer and portable builds; connection mode follows the profile |
-| **namedP — Android** | [Android guide](https://github.com/namedkenzo/NamedClients/tree/main/android) · [APK](https://github.com/namedkenzo/NamedClients/releases/latest) | Dedicated app; VPN/proxy mode follows the profile |
+| **namedP — Windows** | [NamedClients](https://github.com/roxasblessed403-design/NamedClients) · [Downloads](https://github.com/roxasblessed403-design/NamedClients/releases/latest) | Dedicated app; installer and portable builds; connection mode follows the profile |
+| **namedP — Android** | [Android guide](https://github.com/roxasblessed403-design/NamedClients/tree/main/android) · [APK](https://github.com/roxasblessed403-design/NamedClients/releases/latest) | Dedicated app; VPN/proxy mode follows the profile |
 | **Original PingTunnel CLI** | [esrrhs/pingtunnel](https://github.com/esrrhs/pingtunnel) · [Releases](https://github.com/esrrhs/pingtunnel/releases) | Upstream command-line client; choose the matching OS build |
 | **Community PingTunnel Client** | [itismoej/pingtunnel-client](https://github.com/itismoej/pingtunnel-client) · [Releases](https://github.com/itismoej/pingtunnel-client/releases) | Android/desktop GUI; linked from the upstream PingTunnel project |
 | **Ping Tunnel — iOS** | [App Store](https://apps.apple.com/us/app/ping-tunnel-vpn-over-icmp/id6748279683) | Check the installed version's supported modes |
