@@ -4,7 +4,7 @@ import (
  "context"
  "errors"
  "net"
- "namedicmp/internal/outbound"
+ "loxsicmp/internal/outbound"
 )
 
 // Aggregate categories only: no destinations, user IDs or credentials in logs.
