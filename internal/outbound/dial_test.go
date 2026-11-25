@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
-	"namedicmp/internal/store"
+	"loxsicmp/internal/store"
 	"net"
 	"strconv"
 	"strings"
