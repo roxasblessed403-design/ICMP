@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
-	"namedicmp/internal/outbound"
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/outbound"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 type session struct {
