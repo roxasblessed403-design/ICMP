@@ -1,4 +1,4 @@
-module namedicmp
+module loxsicmp
 
 go 1.26.0
 
