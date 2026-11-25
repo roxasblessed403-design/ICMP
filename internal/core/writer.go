@@ -1,8 +1,8 @@
 package core
 
 import (
-	"namedicmp/internal/reliable"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/reliable"
+	"loxsicmp/internal/wire"
 	"time"
 )
 
