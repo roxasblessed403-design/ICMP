@@ -11,7 +11,7 @@ import capacity_trial as module
 
 class CapacityTrialTests(unittest.TestCase):
     def setUp(self):
-        self.scratch = tempfile.TemporaryDirectory(prefix="namedicmp-capacity-test-")
+        self.scratch = tempfile.TemporaryDirectory(prefix="loxsicmp-capacity-test-")
         self.addCleanup(self.scratch.cleanup)
         self.path = Path(self.scratch.name) / "config.json"
         self.data = {**module.DEFAULTS, "panel_listen": "[::]:8443",
