@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"golang.org/x/sys/unix"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 )
 
 type echoResult struct {
