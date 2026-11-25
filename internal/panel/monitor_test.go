@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"namedicmp/internal/store"
+	"loxsicmp/internal/store"
 )
 
 func monitorPanel(t *testing.T) *Panel {
@@ -38,7 +38,7 @@ func TestLiveOriginAuthRevocation(t *testing.T) {
 	for _, test := range []struct {
 		cookie, origin string
 		code           int
-	}{{"", srv.URL, 401}, {"namedicmp_session=test-session", "", 403}, {"namedicmp_session=test-session", "https://evil.example", 403}} {
+	}{{"", srv.URL, 401}, {"namedicmp_session=test-session", "", 403}, {"loxsicmp_session=test-session", "https://evil.example", 403}} {
 		headers := http.Header{}
 		headers.Set("Cookie", test.cookie)
 		headers.Set("Origin", test.origin)
@@ -52,7 +52,7 @@ func TestLiveOriginAuthRevocation(t *testing.T) {
 		}
 		response.Body.Close()
 	}
-	conn, _, err := websocket.DefaultDialer.Dial(endpoint, http.Header{"Cookie": {"namedicmp_session=test-session"}, "Origin": {srv.URL}})
+	conn, _, err := websocket.DefaultDialer.Dial(endpoint, http.Header{"Cookie": {"loxsicmp_session=test-session"}, "Origin": {srv.URL}})
 	if err != nil {
 		t.Fatal(err)
 	}
