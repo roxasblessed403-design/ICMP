@@ -99,13 +99,13 @@ def trial(config, apply=False, restore=None):
         backup = Path(name)
     replace(path, (json.dumps(data, indent=2) + "\n").encode(), previous, info)
     return [description, "Backup: " + str(backup),
-            "Config saved. Run: systemctl restart namedicmp",
+            "Config saved. Run: systemctl restart loxsicmp",
             "That restart disconnects active tunnels once. Reconnect before testing."]
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", default="/etc/namedicmp/config.json")
+    parser.add_argument("--config", default="/etc/loxsicmp/config.json")
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--restore", metavar="BACKUP")
     args = parser.parse_args()
