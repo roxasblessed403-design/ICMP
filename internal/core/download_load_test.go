@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 // Emulate a real paced socket instead of the instantaneous transport used by
