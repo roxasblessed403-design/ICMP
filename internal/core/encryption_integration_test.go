@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"namedicmp/internal/store"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/store"
+	"loxsicmp/internal/wire"
 )
 
 // Exercise the core through the actual encrypted protobuf envelope without
