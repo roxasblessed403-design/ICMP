@@ -26,7 +26,7 @@ type Config struct {
 }
 
 func DefaultConfig() Config {
-	return Config{PanelListen: "0.0.0.0:8443", ICMPListen: "0.0.0.0", ICMPListen6:"::",EndpointFamily:"ipv4",StatePath: "/var/lib/namedicmp/state.json", MaxSessions: 256, MaxPerUser: 32, MaxUDPPerUser: 128, Window: 20000, ICMPPacketsPerSecond: 2500, ICMPBurstPackets: 32}
+	return Config{PanelListen: "0.0.0.0:8443", ICMPListen: "0.0.0.0", ICMPListen6:"::",EndpointFamily:"ipv4",StatePath: "/var/lib/loxsicmp/state.json", MaxSessions: 256, MaxPerUser: 32, MaxUDPPerUser: 128, Window: 20000, ICMPPacketsPerSecond: 2500, ICMPBurstPackets: 32}
 }
 func LoadConfig(path string) (Config, error) {
 	c := DefaultConfig()
