@@ -19,9 +19,9 @@ import (
 	"syscall"
 	"time"
 
-	"namedicmp/internal/core"
-	"namedicmp/internal/panel"
-	"namedicmp/internal/store"
+	"loxsicmp/internal/core"
+	"loxsicmp/internal/panel"
+	"loxsicmp/internal/store"
 )
 
 const version = "0.5.3"
@@ -66,9 +66,9 @@ func main() {
 }
 func initialize(args []string) error {
 	f := flag.NewFlagSet("init", flag.ContinueOnError)
-	path := f.String("config", "/etc/namedicmp/config.json", "configuration path")
+	path := f.String("config", "/etc/loxsicmp/config.json", "configuration path")
 	listen := f.String("listen", "0.0.0.0:8443", "panel bind address")
-	state := f.String("state", "/var/lib/namedicmp/state.json", "state path")
+	state := f.String("state", "/var/lib/loxsicmp/state.json", "state path")
 	host := f.String("public-host", "", "public IP or domain for exports")
 	family:=f.String("family","ipv4","export endpoint family: ipv4 or ipv6")
 	reader:=f.String("packet-reader","raw_ip","raw_ip or raw_packet")
@@ -108,7 +108,7 @@ func initialize(args []string) error {
 }
 func adminClient(args []string) error {
 	f := flag.NewFlagSet("admin", flag.ContinueOnError)
-	sock := f.String("socket", "/run/namedicmp/admin.sock", "local management socket")
+	sock := f.String("socket", "/run/loxsicmp/admin.sock", "local management socket")
 	if err := f.Parse(args); err != nil {
 		return err
 	}
@@ -135,9 +135,9 @@ func adminClient(args []string) error {
 
 func serve(args []string) error {
 	f := flag.NewFlagSet("serve", flag.ContinueOnError)
-	path := f.String("config", "/etc/namedicmp/config.json", "configuration path")
+	path := f.String("config", "/etc/loxsicmp/config.json", "configuration path")
 	panelOnly := f.Bool("panel-only", false, "development preview without ICMP")
-	sock := f.String("admin-socket", "/run/namedicmp/admin.sock", "local management socket")
+	sock := f.String("admin-socket", "/run/loxsicmp/admin.sock", "local management socket")
 	if err := f.Parse(args); err != nil {
 		return err
 	}
@@ -308,7 +308,7 @@ func serve(args []string) error {
 	if conf.TLSCert != "" {
 		scheme = "https"
 	}
-	log.Printf("namedICMP %s panel %s://%s (panel-only=%v)", version, scheme, conf.PanelListen, *panelOnly)
+	log.Printf("loxsICMP %s panel %s://%s (panel-only=%v)", version, scheme, conf.PanelListen, *panelOnly)
 	select {
 	case <-ctx.Done():
 	case err = <-errs:
