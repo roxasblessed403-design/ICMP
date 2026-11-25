@@ -6,7 +6,7 @@ import (
  "sync"
  "time"
  "golang.org/x/sys/unix"
- "namedicmp/internal/wire"
+ "loxsicmp/internal/wire"
 )
 
 // Opt-in AF_PACKET/SOCK_DGRAM returns network headers without link headers.
