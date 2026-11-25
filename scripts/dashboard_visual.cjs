@@ -8,13 +8,13 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function wait(check){for(let i=0;i<160;i++){if(await check())return;await sleep(100);}throw Error('Browser test timeout');}
 async function port(){const s=net.createServer();await new Promise(r=>s.listen(0,'127.0.0.1',r));const p=s.address().port;await new Promise(r=>s.close(r));return p;}
 (async()=>{
- const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'namedicmp-browser-'));
- const out='/tmp/namedicmp-dashboard-previews';fs.mkdirSync(out,{recursive:true});
+ const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'loxsicmp-browser-'));
+ const out='/tmp/loxsicmp-dashboard-previews';fs.mkdirSync(out,{recursive:true});
  let server,chrome,ws;const pending=new Map();let sequence=0;
  try{
-  const binary=path.join(scratch,'namedicmp'),config=path.join(scratch,'config.json'),httpPort=await port(),debugPort=await port(),url=`http://127.0.0.1:${httpPort}/`;
+  const binary=path.join(scratch,'loxsicmp'),config=path.join(scratch,'config.json'),httpPort=await port(),debugPort=await port(),url=`http://127.0.0.1:${httpPort}/`;
   const credentials={username:'visual-qa',password:crypto.randomBytes(24).toString('hex')};
-  execFileSync(process.env.GO_BINARY||'go',['build','-buildvcs=false','-o',binary,'./cmd/namedicmp'],{stdio:'inherit'});
+  execFileSync(process.env.GO_BINARY||'go',['build','-buildvcs=false','-o',binary,'./cmd/loxsicmp'],{stdio:'inherit'});
   execFileSync(binary,['init','--config',config,'--state',path.join(scratch,'state.json'),'--listen',`127.0.0.1:${httpPort}`,'--public-host','203.0.113.25'],{input:JSON.stringify(credentials)});
   server=spawn(binary,['serve','--config',config,'--panel-only','--admin-socket='],{stdio:'ignore'});
   await wait(async()=>{try{return(await fetch(url)).ok;}catch{return false;}});
