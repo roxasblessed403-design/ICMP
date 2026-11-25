@@ -1,6 +1,6 @@
 package core
 
-import "namedicmp/internal/reliable"
+import "loxsicmp/internal/reliable"
 
 type Reliable = reliable.Reliable
 
