@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# loxsICMP installer/manager. Original implementation; Debian/Ubuntu + systemd.
+# loxsicmp installer/manager. Original implementation; Debian/Ubuntu + systemd.
 set -Eeuo pipefail
 umask 077
-REPOSITORY="${LOXSICMP_REPO:-roxasblessed403-design/loxsICMP}"
+REPOSITORY="${LOXSICMP_REPO:-roxasblessed403-design/loxsicmp}"
 REFERENCE="${LOXSICMP_REF:-main}"
 PREFIX=/opt/loxsicmp
 CONFIG=/etc/loxsicmp/config.json
@@ -17,7 +17,7 @@ say(){ printf '%s\n' "$*"; }
 ask(){ local _ask_target=$1 _ask_prompt=$2 _ask_default=${3:-} _ask_value; read -r -p "$_ask_prompt ${_ask_default:+[$_ask_default] }" _ask_value </dev/tty; printf -v "$_ask_target" '%s' "${_ask_value:-$_ask_default}"; }
 yesno(){ local answer; ask answer "$1 [y/N]:" "n"; [[ "$answer" =~ ^[Yy]([Ee][Ss])?$ ]]; }
 require_root(){ [[ $EUID -eq 0 ]] || { say 'Run as root: sudo bash install.sh'; exit 1; }; [[ -r /dev/tty ]] || { say 'An interactive terminal is required.'; exit 1; }; command -v systemctl >/dev/null || { say 'systemd is required.'; exit 1; }; }
-require_installed(){ [[ -x $PREFIX/loxsicmp && -f $CONFIG ]] || { say 'Install loxsICMP first.'; return 1; }; }
+require_installed(){ [[ -x $PREFIX/loxsicmp && -f $CONFIG ]] || { say 'Install loxsicmp first.'; return 1; }; }
 valid_port(){ [[ "$1" =~ ^[0-9]{1,5}$ ]] && ((10#$1>=1 && 10#$1<=65535)); }
 get_port(){ local answer; while :;do ask answer 'Web panel port:' '8443';if valid_port "$answer";then printf -v "$1" '%s' "$((10#$answer))";return;fi;say 'Enter a port from 1 to 65535.';done; }
 packages(){
@@ -41,7 +41,7 @@ source_tree(){
  validate_source || return
  temporary;download "https://codeload.github.com/$REPOSITORY/tar.gz/$REFERENCE" "$workdir/source.tar.gz"
  local source_path;source_path=$(mktemp -d "$workdir/source.XXXXXXXX");tar -xzf "$workdir/source.tar.gz" -C "$source_path" --strip-components=1
- [[ -f $source_path/go.mod && -f $source_path/install.sh ]] || { say 'Source archive is not loxsICMP.';return 1; };printf -v "$1" '%s' "$source_path"
+ [[ -f $source_path/go.mod && -f $source_path/install.sh ]] || { say 'Source archive is not loxsicmp.';return 1; };printf -v "$1" '%s' "$source_path"
 }
 go_binary(){
  local current="";if command -v go >/dev/null;then current=$(go env GOVERSION);fi
@@ -72,7 +72,7 @@ PY
 install_service(){
  cat > /etc/systemd/system/loxsicmp.service <<'UNIT'
 [Unit]
-Description=loxsICMP web management panel
+Description=loxsicmp web management panel
 After=network-online.target
 Wants=network-online.target
 StartLimitIntervalSec=60
@@ -115,7 +115,7 @@ echo_suppression(){
 }
 network_tuning(){
  require_installed
- if [[ ! -f $PREFIX/network_tuning.py ]];then say 'Network helper is missing; update loxsICMP first.';return 1;fi
+ if [[ ! -f $PREFIX/network_tuning.py ]];then say 'Network helper is missing; update loxsicmp first.';return 1;fi
  python3 "$PREFIX/network_tuning.py" "${1:-apply}"
 }
 certificate(){
@@ -149,14 +149,14 @@ HOOK
  chmod 0755 /etc/letsencrypt/renewal-hooks/deploy/loxsicmp
  cat >/etc/systemd/system/loxsicmp-renew.service <<'UNIT'
 [Unit]
-Description=Renew loxsICMP TLS certificate
+Description=Renew loxsicmp TLS certificate
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/certbot renew --cert-name loxsicmp --quiet
 UNIT
  cat >/etc/systemd/system/loxsicmp-renew.timer <<'UNIT'
 [Unit]
-Description=Automatic loxsICMP certificate renewal
+Description=Automatic loxsicmp certificate renewal
 [Timer]
 OnCalendar=*-*-* 03,15:00:00
 RandomizedDelaySec=1h
@@ -260,7 +260,7 @@ build_candidate(){
  source_version=$(sed -n 's/^const version = "\(.*\)"$/\1/p' "$source_dir/cmd/loxsicmp/main.go")
  [[ $source_version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]] || { say 'Invalid source version.';return 1; }
  MANAGER_VERSION=$source_version
- case $INSTALL_MODE in auto|binary|source);;*)say 'loxsicmp_INSTALL_MODE must be auto, binary or source.';return 1;;esac
+ case $INSTALL_MODE in auto|binary|source);;*)say 'LOXSICMP_INSTALL_MODE must be auto, binary or source.';return 1;;esac
  if [[ -f ${BASH_SOURCE[0]} ]];then local_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd);fi
  # Local checkouts and custom refs build their own code. Never silently replace it with a release.
  if [[ $INSTALL_MODE == binary || $INSTALL_MODE == auto && $REFERENCE == main && ! -f $local_dir/go.mod ]];then
@@ -269,7 +269,7 @@ build_candidate(){
   say 'Prebuilt release unavailable; falling back to a source build (slower).'
  fi
  temporary;go_binary go_cmd || return
- say "Building loxsaiCMP $MANAGER_VERSION from source. Existing tunnels keep running."
+ say "Building loxsicmp $MANAGER_VERSION from source. Existing tunnels keep running."
  (cd "$source_dir" || exit; if [[ ${LOXSICMP_RUN_TESTS:-0} == 1 ]];then GOTOOLCHAIN=local "$go_cmd" test ./... || exit;fi;CGO_ENABLED=0 GOTOOLCHAIN=local "$go_cmd" build -buildvcs=false -trimpath -ldflags='-s -w' -o "$workdir/loxsicmp" ./cmd/loxsicmp)
 }
 
@@ -331,4 +331,4 @@ PY
  say "Updated to $("$PREFIX/loxsicmp" version). Users, quotas, panel credentials, port and TLS settings preserved."
  say "Backup: $backup_dir"
 }
-change_port(){ require_installed;local panel_port bind_address;get_port panel_port;if [[ $panel_port == 80 ]] && python3 -c 'import json,sys;sys.exit(not bool(json.load(open("/etc/loxsicmp/config.json"))["tls_cert"]))';then say 'Port 80 must remain available for Certbot renewal.';return 1;fi;bind_address=$(python3 -c 'import json;print(json.load(open("/etc/loxsicmp/config.json"))["panel_listen"].rsplit(":",1)[0])');edit_config panel_listen "$bind_address:$panel_port";systemctl restart loxsicmp.service;say "Panel port changed to $panel_port. Restarting the service 
+change_port(){ require_installed;local panel_port bind_address;get_port panel_port;if [[ $panel_port == 80 ]] && python3 -c 'import json,sys;sys.exit(not bool(json.load(open("/etc/loxsicmp/config.json"))["tls_cert"]))';then say 'Port 80 must remain available for Certbot renewal.';return 1;fi;bind_address=$(python3 -c 'import json;print(json.load(open("/etc/loxsicmp/config.json"))["panel_listen"].rsplit(":",1)[0])');edit_config panel_listen "$bind_address:$panel_port";systemctl restart loxsicmp.service;say "Panel port changed to $panel_port. Restarting the service.";}
