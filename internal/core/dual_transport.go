@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"namedicmp/internal/wire"
+	"loxsicmp/internal/wire"
 	"net"
 	"sync"
 	"sync/atomic"
